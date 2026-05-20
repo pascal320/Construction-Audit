@@ -1,15 +1,99 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model ConstructionSite {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String
+  location  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  minutes  Minute[]
+  entities Entity[]
+  issues   Issue[]
+
+  @@index([code])
+  @@map("construction_sites")
+}
+
+model Minute {
+  id                 String   @id @default(cuid())
+  siteId             String
+  code               String
+  number             Int
+  date               DateTime
+  sourceDocumentUrl  String?
+  sourceDocumentName String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  site   ConstructionSite @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  issues Issue[]
+
+  @@unique([siteId, number])
+  @@index([siteId])
+  @@map("minutes")
+}
+
+model Entity {
+  id        String     @id @default(cuid())
+  siteId    String
+  role      EntityRole
+  name      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  site   ConstructionSite @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  issues Issue[]
+
+  @@unique([siteId, role])
+  @@index([siteId])
+  @@map("entities")
+}
+
+enum EntityRole {
+  DONO_DE_OBRA
+  FISCALIZACAO
+  PROJETISTA
+  ENTIDADE_EXECUTANTE
+}
+
+model Issue {
+  id               String      @id @default(cuid())
+  siteId           String
+  entityId         String
+  minuteId         String
+  sequenceNumber   Int
+  title            String
+  description      String      @db.Text
+  date             DateTime
+  observations     String?     @db.Text
+  status           IssueStatus @default(PENDING)
+  raisedInMinuteId String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  site   ConstructionSite @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  entity Entity           @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  minute Minute           @relation(fields: [minuteId], references: [id])
+
+  @@unique([entityId, sequenceNumber])
+  @@index([siteId])
+  @@index([entityId])
+  @@index([minuteId])
+  @@index([status])
+  @@map("issues")
+}
+
+enum IssueStatus {
+  PENDING
+  IN_PROGRESS
+  RESOLVED
 }
