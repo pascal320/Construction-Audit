@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { extractFromText, parseExtractionResponse } from '@/lib/extract'
+
+export const dynamic = 'force-dynamic'
 import type { EntityRole, IssueStatus } from '@prisma/client'
 
 async function extractText(file: File): Promise<string> {
