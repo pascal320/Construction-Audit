@@ -58,10 +58,10 @@ export function SiteDetailClient({ site }: { site: SiteDetail }) {
         locale={locale}
       />
 
-      <Tabs defaultValue="minutes">
+      <Tabs defaultValue="entity">
         <TabsList className="mb-6">
-          <TabsTrigger value="minutes">{t(locale, 'byMinutes')}</TabsTrigger>
           <TabsTrigger value="entity">{t(locale, 'byEntity')}</TabsTrigger>
+          <TabsTrigger value="minutes">{t(locale, 'byMinutes')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="minutes">

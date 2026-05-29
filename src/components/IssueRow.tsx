@@ -11,7 +11,7 @@ export function IssueRow({ issue, locale }: { issue: IssueFull; locale: Locale }
         <p className="text-sm font-semibold text-slate-800">{issue.title}</p>
         <p className="text-xs text-slate-500 mt-1 line-clamp-3">{issue.description}</p>
       </td>
-      <td className="py-3 px-4 text-sm text-slate-600 whitespace-nowrap">{issue.minute.code}</td>
+      <td className="py-3 px-4 text-sm text-slate-600 whitespace-nowrap">Acta nº {issue.minute.number}</td>
       <td className="py-3 px-4 text-sm text-slate-600 whitespace-nowrap">{date}</td>
       <td className="py-3 px-4 text-xs text-slate-500 max-w-xs">{issue.observations}</td>
       <td className="py-3 px-4 whitespace-nowrap">
