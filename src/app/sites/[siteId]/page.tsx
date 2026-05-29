@@ -4,6 +4,8 @@ import { db } from '@/lib/db'
 import { SiteDetailClient } from '@/components/SiteDetailClient'
 import type { SiteDetail } from '@/types'
 
+export const dynamic = 'force-dynamic'
+
 async function getSiteDetail(siteId: string): Promise<SiteDetail | null> {
   const site = await db.constructionSite.findUnique({
     where: { id: siteId },

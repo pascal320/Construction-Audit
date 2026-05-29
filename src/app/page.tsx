@@ -1,6 +1,8 @@
 import { db } from '@/lib/db'
 import { SitesList } from '@/components/SitesList'
 
+export const dynamic = 'force-dynamic'
+
 async function getSites() {
   const sites = await db.constructionSite.findMany({
     orderBy: { name: 'asc' },
