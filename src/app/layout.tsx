@@ -5,7 +5,7 @@ import { LanguageProvider } from '@/context/LanguageContext'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { UploadButton } from '@/components/UploadButton'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'RESSA – Construction Audit',

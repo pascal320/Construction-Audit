@@ -27,7 +27,6 @@ export default async function HomePage() {
   const sites = await getSites()
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">Construction Sites</h1>
       <SitesList sites={sites} />
     </div>
   )
